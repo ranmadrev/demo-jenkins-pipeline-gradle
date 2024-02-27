@@ -1,9 +1,8 @@
 pipeline {
-    agent none
+    agent any
 
     stages {
         stage('Build') {
-            agent { label 'gradle' }
             steps {
                 checkout scm
                 sh "env"
@@ -12,7 +11,6 @@ pipeline {
             }
         }
         stage('Test') {
-            agent { label 'gradle' }
             steps {
                 parallel(
                     'check': {
@@ -25,7 +23,6 @@ pipeline {
             }
         }
         stage('Build image') {
-            agent { label 'gradle' }
             steps {
                 script {
                     openshift.withCluster() {
@@ -50,7 +47,6 @@ pipeline {
             }
         }
         stage('Dev') {
-            agent { label 'gradle' }
             steps {
                 script {
                     openshift.withCluster() {
@@ -65,7 +61,6 @@ pipeline {
             }
         }
         stage('Staging') {
-            agent { label 'gradle' }
             steps {
                 script {
                     openshift.withCluster() {
@@ -87,7 +82,6 @@ pipeline {
             }
         }
         stage('Prod') {
-            agent { label 'gradle' }
             steps {
                 script {
                     openshift.withCluster() {
