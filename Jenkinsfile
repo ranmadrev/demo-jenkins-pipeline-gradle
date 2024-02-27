@@ -6,7 +6,7 @@ pipeline {
             steps {
                 checkout scm
                 sh "env"
-                sh "gradle bootRepackage --stacktrace"
+                sh "/root/opt/gradle/bin/gradle bootRepackage --stacktrace"
                 sh 'jarFile=`ls build/libs | grep -v original` && mkdir -p ocp/deployments && cp build/libs/$jarFile ocp/deployments/'
             }
         }
@@ -14,7 +14,7 @@ pipeline {
             steps {
                 parallel(
                     'check': {
-                        sh "gradle check --stacktrace"
+                        sh "/root/opt/gradle/bin/gradle check --stacktrace"
                     },
                     'echo': {
                         echo "ok in parallel"
